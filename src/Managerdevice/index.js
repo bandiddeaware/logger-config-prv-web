@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-var mqtt_connection = new PWAMqtt(MQTT, sconfig.mqtt_url, 8083)
+var mqtt_connection = new PWAMqtt(MQTT, sconfig.mqtt_url, 8083, sconfig.mqtt_user, sconfig.mqtt_pass)
 async function ConnectMqtt () {
   var isConnect = await mqtt_connection.onConnect()
   //console.log(isConnect)

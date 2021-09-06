@@ -1,0 +1,26 @@
+get device config:
+public:     logger/{{remote_name}}/device/config/get
+subscript:  logger/{{remote_name}}/device/config
+
+set device config:
+public:     logger/{{remote_name}}/device/config/set
+subscript:  logger/{{remote_name}}/device/config
+
+
+get modbus config:
+public:     logger/{{remote_name}}/modbus/config/get
+subscript:  logger/{{remote_name}}/modbus/config
+
+set modbus config:
+public:     logger/{{remote_name}}/modbus/config/set
+subscript:  logger/{{remote_name}}/modbus/config
+
+
+
+set PRV manual: 
+public:     logger/{{remote_name}}/prv/valve/set
+subscript:  logger/{{remote_name}}/prv/valve
+
+set PRV auto: 
+public:     logger/{{remote_name}}/prv/config/set
+subscript:  logger/{{remote_name}}/prv/config

@@ -49,13 +49,13 @@ import { updateConfig, getConfig } from './../apis/PWA_Config'
 
 import MQTT from 'paho-mqtt'
 
-import PWAMqtt from "../module/mqtt.js"
+import PWAMqtt from "../module/mqtt"
 
 import { MODBUS, CONFIG } from './../stores/actions'
 
 import sconfig from "./../config"
 
-var mqtt_connection = new PWAMqtt(MQTT, sconfig.mqtt_url, 8083)
+var mqtt_connection = new PWAMqtt(MQTT, sconfig.mqtt_url, 8083, sconfig.mqtt_user, sconfig.mqtt_pass)
 
 var TimeoutSearchDevice
 

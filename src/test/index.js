@@ -82,7 +82,7 @@ export default Test
 // import MQTT from 'paho-mqtt'
 // import PWAMqtt from './module/mqtt_for_manual_auto'
 // import sconfig from './../config'
-// mqtt: var mqtt_connection = new PWAMqtt(MQTT, sconfig.mqtt_url, 8083)
+// mqtt: var mqtt_connection = new PWAMqtt(MQTT, sconfig.mqtt_url, 8083, sconfig.mqtt_user, sconfig.mqtt_pass)
 
 // const useStyles = makeStyles(() => ({
 //   margin: {

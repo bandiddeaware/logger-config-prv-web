@@ -1,10 +1,12 @@
 // doc paho : https://www.eclipse.org/paho/files/jsdoc/index.html
 
 class PWAMqtt {
-  constructor(MQTT, url, port) {
+  constructor(MQTT, url, port, userName, password) {
     this.isConnect = false
     this.isConnectLost = false
     this.MQTT = MQTT
+    this.userName = userName
+    this.password = password
     this.client = new MQTT.Client(url, port, "__LOGGER_WEB_CONFIG_MANAGER__" + Math.random().toString().slice(2,10));
   }
   onConnect () {
@@ -15,7 +17,7 @@ class PWAMqtt {
           this.isConnect = true
           console.log("Client Connected")
           resolve(true)
-        }})
+        }, keepAliveInterval : 10, reconnect : true, userName: this.userName, password : this.password })
       }catch (e) {
         console.log(e)
       }
