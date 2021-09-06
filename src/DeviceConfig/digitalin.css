@@ -1,0 +1,27 @@
+.digitalin-fieldset {
+  margin: 8px;
+  border: 1px solid silver;
+  padding: 8px;
+  border-radius: 4px;
+}
+.digitalin-legend {
+  padding: 2px;
+}
+.digitalin-label-input{
+  padding: 10px;
+  width: 200px;
+  display: flex;
+  justify-content: flex-end;
+}
+.digitalin-lable-unit {
+  padding: 10px;
+}
+.digitalin-lable-value {
+  padding: 6px 0px 6px 15px;
+  font-size: 20px;
+  font-weight: 400;
+  color: #00029d;
+}
+.digitalin-label-checkbox {
+  padding-top: 8px;
+}

@@ -1,0 +1,5 @@
+{
+  "api_url": "http://localhost:20000/config",
+  "mqtt_url": "dwmonitors.site",
+  "auth_url": "http://122.155.27.175"
+}

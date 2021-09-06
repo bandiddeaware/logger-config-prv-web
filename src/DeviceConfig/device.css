@@ -1,0 +1,42 @@
+.device-fieldset {
+  margin: 8px;
+  border: 1px solid silver;
+  padding: 8px;
+  border-radius: 4px;
+}
+.device-legend {
+  padding: 2px;
+}
+.device-fieldset > :nth-child(2)  {
+  padding-top: 0px !important;
+}
+.device-label-input{
+  padding: 10px;
+  width: 130px;
+  display: flex;
+  justify-content: flex-end;
+  /* font-size: 1vw; */
+}
+.device-lable-unit {
+  padding: 10px;
+}
+.device-lable-value {
+  padding: 6px 0px 6px 0px;
+  font-size: 20px;
+  font-weight: 400;
+  color: #00029d;
+}
+@media only screen and (max-width: 950px) {
+  .upload {
+    padding-top: 20px;
+  }
+  .sec {
+    padding-top: 20px !important;
+  }
+  .volt {
+    padding-top: 20px !important;
+  }
+  .change-voltage {
+    font-size: 0.92em;
+  }
+}

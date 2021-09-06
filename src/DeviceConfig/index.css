@@ -1,0 +1,116 @@
+.config-device {
+  display: flex;
+  font-size: 1em;
+  margin: 10px;
+  height: 100%;
+  justify-content: center; 
+}
+.config-container {
+  width: 1000px;
+  background-color: #ffffff;
+  border-radius: 10px 10px 0px 0px;
+  padding-bottom: 20px;
+  /* margin: 20px; */
+}
+.config-shadow {
+  box-shadow: 0 .15rem 1.75rem 0 rgba(8, 8, 8, 0.15) !important;
+}
+.config-card-header {
+  border-radius: calc(.35rem - 1px) calc(.35rem - 1px) 0 0;
+  padding: 0.6rem 1rem !important;
+  margin-bottom: 0;
+  background-color: #f8f9fc;
+  border-bottom: 1px solid #e3e6f0;
+
+  /* width: 100%; */
+  display: flex;
+
+  align-items: center;
+}
+
+.config-card-icon {
+  width: 50%;
+  height: 50%;
+  display: flex;
+  justify-content: flex-start;
+  font-size: 1.3vw;
+  padding-top: 8px;
+  font-weight: 350;
+  justify-content: flex-end;
+  margin-right: 1rem;
+}
+
+.config-card-title {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  font-size: 1.3em;
+  padding-top: 8px;
+  font-weight: 400;
+  /* margin-left: 1rem; */
+}
+
+.config-card-title-status {
+  font-size: 14px;
+  color: #021997;
+  /* text-decoration: underline; */
+  font-weight: 350;
+}
+
+.config-body {
+  margin: 10px;
+  background-color: #fafafa;
+}
+.dialog-btn-group {
+  padding: 10px;
+}
+.dialog-from {
+  margin: 20px 40px;
+  display: flex;
+  justify-content: center;
+}
+.dialog-notfound-logger {
+  font-size: 1.3em;
+}
+
+.dialog-icon-notfound {
+  display: flex;
+  justify-content: center;
+}
+.dialog-notfound-serial {
+  font-size: 1.2em;
+  font-weight: 350;
+  color: #215df1;
+}
+.status-flex {
+  display: flex;
+  align-items: center;
+}
+.status-server {
+  width: 8px;
+  height: 8px;
+  display: flex;
+  background-color: #4299e1;
+  border-radius: 10px;
+  margin-right: 5px;
+  animation: blinkerServer 1s linear infinite;
+}
+.status-logger {
+  width: 8px;
+  height: 8px;
+  display: flex;
+  background-color: #06b323;
+  border-radius: 10px;
+  margin-right: 5px;
+  animation: blinkerLogger 1s linear infinite;
+}
+@keyframes blinkerServer {
+  100% {
+    background-color: #032c61;
+  }
+}
+@keyframes blinkerLogger {
+  100% {
+    background-color: #045c12;
+  }
+}

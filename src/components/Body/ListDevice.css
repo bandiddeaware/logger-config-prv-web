@@ -1,0 +1,11 @@
+.listdevice-delete {
+  width: 8%;
+  padding: 6px;
+  display: flex;
+  justify-content: center;
+}
+.not-found-props-deviceinfo {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}

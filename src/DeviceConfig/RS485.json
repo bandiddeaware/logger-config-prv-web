@@ -1,0 +1,225 @@
+[
+  {
+      "mn": "MAG8000",
+      "mc": 1,
+      "reg": [
+          {
+              "mid": 1,
+              "mbf": 3,
+              "mba": 3002,
+              "tag": "fl1"
+          },
+          {
+              "mid": 1,
+              "mbf": 3,
+              "mba": 3017,
+              "tag": "fa1"
+          }
+      ]
+  },
+  {
+      "mn": "MAG5000",
+      "mc": 1,
+      "reg": [
+          {
+              "mid": 1,
+              "mbf": 3,
+              "mba": 3002,
+              "tag": "fl1"
+          },
+          {
+              "mid": 1,
+              "mbf": 3,
+              "mba": 3017,
+              "tag": "fa1"
+          }
+      ]
+  },
+  {
+      "mn": "MAG6000",
+      "mc": 1,
+      "reg": [
+          {
+              "mid": 1,
+              "mbf": 3,
+              "mba": 3002,
+              "tag": "fl1"
+          },
+          {
+              "mid": 1,
+              "mbf": 3,
+              "mba": 3017,
+              "tag": "fa1"
+          }
+      ]
+  },
+  {
+      "mn": "AMC4000",
+      "mc": 1,
+      "reg": [
+          {
+              "mid": 1,
+              "mbf": 3,
+              "mba": 784,
+              "tag": "fa1"
+          },
+          {
+              "mid": 1,
+              "mbf": 3,
+              "mba": 594,
+              "tag": "fl1"
+          }
+      ]
+  },
+  {
+      "mn": "LTH_PMAG",
+      "mc": 1,
+      "reg": [
+          {
+              "mid": 1,
+              "mbf": 3,
+              "mba": 784,
+              "tag": "fa1"
+          },
+          {
+              "mid": 1,
+              "mbf": 3,
+              "mba": 594,
+              "tag": "fl1"
+          }
+      ]
+  },
+  {
+      "mn": "ARAD",
+      "mc": 1,
+      "reg": [
+          {
+              "mid": 1,
+              "mbf": 3,
+              "mba": 24,
+              "tag": "fa1"
+          },
+          {
+              "mid": 1,
+              "mbf": 3,
+              "mba": 54,
+              "tag": "fl1"
+          }
+      ]
+  },
+  {
+      "mn": "YOGO",
+      "mc": 1,
+      "reg": [
+          {
+              "mid": 1,
+              "mbf": 3,
+              "mba": 104,
+              "tag": "fa1"
+          },
+          {
+              "mid": 1,
+              "mbf": 3,
+              "mba": 102,
+              "tag": "fl1"
+          }
+      ]
+  },
+  {
+      "mn": "SITELAB",
+      "mc": 1,
+      "reg": [
+          {
+              "mid": 1,
+              "mbf": 3,
+              "mba": 14,
+              "tag": "fa1"
+          },
+          {
+              "mid": 1,
+              "mbf": 3,
+              "mba": 4,
+              "tag": "fl1"
+          }
+      ]
+  },
+  {
+      "mn": "AQUAMASTER3",
+      "mc": 1,
+      "reg": [
+          {
+              "mid": 1,
+              "mbf": 3,
+              "mba": 12003,
+              "tag": "fa1"
+          },
+          {
+              "mid": 1,
+              "mbf": 3,
+              "mba": 5017,
+              "tag": "fl1"
+          }
+      ]
+  },
+  {
+      "mn": "MT",
+      "mc": 0,
+      "reg": [
+          {
+              "mid":3,
+              "mba":0,
+              "mbf":4,
+              "tag":"vh"
+          }
+          ,
+          {
+              "mid":3,
+              "mba":1,
+              "mbf":4,
+              "tag":"vl"
+          }
+          ,
+          {
+              "mid":3,
+              "mba":70,
+              "mbf":4,
+              "tag":"hh"
+          }
+          ,
+          {
+              "mix":0,
+              "mid":3,
+              "mba":71,
+              "mbf":4,
+              "tag":"hl"
+          }
+          ,
+          {
+              "mid":3,
+              "mba":6,
+              "mbf":4,
+              "tag":"ah"
+          }
+          ,
+          {
+              "mid":3,
+              "mba":7,
+              "mbf":4,
+              "tag":"al"
+          },
+          {
+              "mid":3,
+              "mba":10,
+              "mbf":4,
+              "tag":"pfh"
+          }
+          ,
+          {
+              "mid":3,
+              "mba":11,
+              "mbf":4,
+              "tag":"pfl"
+          }
+      ]
+  }
+]
