@@ -19,11 +19,12 @@ import { useNavigate } from "react-router-dom";
 
 import Auto from './auto'
 import Manual from './manual'
+import Logging from './logging'
 
 // icon
 import TuneIcon from '@material-ui/icons/Tune';
 import BrightnessAutoIcon from '@material-ui/icons/BrightnessAuto';
-
+import ViewListIcon from '@material-ui/icons/ViewList';
 import { updateConfig } from "./../apis/PWA_Config"
 
 let IntervalCheckStore
@@ -306,6 +307,9 @@ const PRVConfig = (props) => {
           >
             <Tab label="Manual Command" icon={<TuneIcon />} {...a11yProps(0)} disabled ={false} style ={{fontSize: "14px"}}/>
             <Tab label="Automatic Command" icon={<BrightnessAutoIcon />} {...a11yProps(1)} disabled ={false} style ={{fontSize: "14px"}}/>
+            {/* log config */}
+            <Tab label="Logging" icon={<ViewListIcon />} {...a11yProps(2)} disabled ={false} style ={{fontSize: "14px"}}/>
+
           </Tabs>
         </AppBar>
         
@@ -314,6 +318,9 @@ const PRVConfig = (props) => {
         </TabPanelContrainer>
         <TabPanelContrainer value={AppBarValuue} index={1}>
           <Auto store={store} serial={Serial}/>
+        </TabPanelContrainer>
+        <TabPanelContrainer value={AppBarValuue} index={2}>
+          <Logging store={store} serial={Serial}/>
         </TabPanelContrainer>
 
       </div>
