@@ -14,7 +14,7 @@ import { useRoutes } from 'react-router-dom';
 import Login from './Login'
 import { store } from './stores/store'
 
-import sconfig from './config.json'
+import sconfig from './config'
 
 // import PWAmqtt from './module/mqtt'
 
@@ -123,6 +123,9 @@ function App() {
     }, {
       path: "/redirect",
       element: <RedirectPage store={store} />
+    }, {
+      path: "/test",
+      element: <Test store={store} />
     }
   ]);
 

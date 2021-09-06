@@ -1,5 +1,5 @@
 import axios from 'axios'
-import sconfig from './../config.json'
+import sconfig from './../config'
 
 export default (token) => {
   var api = axios.create({

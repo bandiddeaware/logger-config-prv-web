@@ -31,7 +31,8 @@ import { updateConfig } from './../apis/PWA_Config'
 import MQTT from 'paho-mqtt'
 import PWAMqtt from './../module/mqtt_v2'
 import { TrendingUpRounded } from "@material-ui/icons";
-var mqtt_connection = new PWAMqtt(MQTT, 'dwdev.info', 8083)
+import sconfig from './../config'
+var mqtt_connection = new PWAMqtt(MQTT, sconfig.auth_url, 8083) 
 
 let IntervalCheckStore
 

@@ -11,8 +11,8 @@ import AddDevice from '../components/Body/AddDevice'
 import { DETAIL, USERINFO, DEVICE } from './../stores/actions'
 
 import MQTT from 'paho-mqtt'
-import PWAmqtt from './../module/mqtt'
-
+import PWAMqtt from './../module/mqtt'
+import sconfig from "./../config"
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
@@ -27,9 +27,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-var client = new PWAmqtt(MQTT, 'dwdev.info', 8083)
+var mqtt_connection = new PWAMqtt(MQTT, sconfig.mqtt_url, 8083)
 async function ConnectMqtt () {
-  var isConnect = await client.onConnect()
+  var isConnect = await mqtt_connection.onConnect()
   //console.log(isConnect)
 }
 ConnectMqtt()
@@ -120,7 +120,7 @@ function ManagerDevice (props) {
               เพิ่มอุปกรณ์
             </BtnCustom> */}
             {
-              ((userInfo[0] !== undefined) ? ((userInfo[0].is_admin !== "0") ? <AddDevice store={store} hidden={true} client={client}/>: <AddDevice store={store} hidden={false} client={client}/>): "")
+              ((userInfo[0] !== undefined) ? ((userInfo[0].is_admin !== "0") ? <AddDevice store={store} hidden={true} client={mqtt_connection}/>: <AddDevice store={store} hidden={false} client={mqtt_connection}/>): "")
             }
           </div>
         </div>

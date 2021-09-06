@@ -53,7 +53,9 @@ import PWAMqtt from "../module/mqtt.js"
 
 import { MODBUS, CONFIG } from './../stores/actions'
 
-var mqtt_connection = new PWAMqtt(MQTT, 'dwdev.info', 8083)
+import sconfig from "./../config"
+
+var mqtt_connection = new PWAMqtt(MQTT, sconfig.mqtt_url, 8083)
 
 var TimeoutSearchDevice
 
@@ -233,7 +235,7 @@ function DeviceConfig (props) {
   
           clearTimeout(TimeoutSearchDevice)
           setDialogOpen(false)
-          
+
         }
         if (msg.mbd !== undefined){
           setModbus(msg)
@@ -241,7 +243,10 @@ function DeviceConfig (props) {
   
           clearTimeout(TimeoutSearchDevice)
           setDialogOpen(false)
-  
+          console.log("logger/"+Serial_no+"/modbus/config")
+          mqtt_connection.onUnsubscript("logger/"+Serial_no+"/device/config")
+          mqtt_connection.onUnsubscript("logger/"+Serial_no+"/modbus/config")
+
         }
       })
 
@@ -294,6 +299,9 @@ function DeviceConfig (props) {
   }
 
   const handleReactConfig = () => {
+    var Serial_no = query.get("remotename")
+    mqtt_connection.onSubscript("logger/"+Serial_no+"/device/config")
+    mqtt_connection.onSubscript("logger/"+Serial_no+"/modbus/config")
     mqtt_connection.onPublic("logger/"+ Serial +"/device/config/get", "get config")
     mqtt_connection.onPublic("logger/"+ Serial +"/modbus/config/get", "get config")
     setSource(true)

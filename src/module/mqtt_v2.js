@@ -35,6 +35,9 @@ class PWAMqtt {
   onSubscript (topic){
     this.client.subscribe(topic);
   }
+  onUnsubscript (topic){
+    this.client.unsubscribe(topic)
+  }
   onConnectLost () {
     this.client.onConnectionLost = () => {
       console.log("Connect Lost")
