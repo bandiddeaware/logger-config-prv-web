@@ -268,7 +268,7 @@ const Logging = (props) => {
             </ViewButton>
           </TableCell>
         
-          <TableCell align="left">{row.user}</TableCell>
+          <TableCell align="left">{row.name}</TableCell>
 
         </TableRow>
       )
@@ -315,7 +315,7 @@ const Logging = (props) => {
       maxWidth={"xl"}
       open={Open}>
       <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-        Config History      
+        Config History [dmaname: {Detail.dmaname}, Time: {parseDateTime(Detail.time)}, สั่งโดย {Detail.name}]     
       </DialogTitle>
       <DialogContent dividers>
 
@@ -339,9 +339,9 @@ const Logging = (props) => {
                 <StyledTalbe className={classes.table} aria-label="caption table">
                   <TableHead>
                     <TableRow>
-                      <TableCell style={{ width: 120, fontSize: "1em" }} align="left">Time</TableCell>
-                      <TableCell style={{ width: 120, fontSize: "1em" }} align="left">Device Mode</TableCell>
-                      <TableCell style={{ width: 120, fontSize: "1em" }} align="left">Pressure</TableCell>
+                      <TableCell style={{ width: 120, fontSize: "0.8em" }} align="left">Time</TableCell>
+                      <TableCell style={{ width: 120, fontSize: "0.8em" }} align="left">Device Mode</TableCell>
+                      <TableCell style={{ width: 120, fontSize: "0.8em" }} align="left">Pressure</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -369,7 +369,7 @@ const Logging = (props) => {
               <div style={{padding: "10px 10px 5px", fontSize: "0.8em"}}>Time Loog min = { Detail.failure_mode.time_loog_min }</div>
               <div style={{padding: "10px 10px 5px", fontSize: "0.8em"}}>Step Value = { Detail.failure_mode.step_valve }</div>
               <div style={{padding: "10px 10px 5px", fontSize: "0.8em"}}>Mode = { Detail.failure_mode.mode }</div>
-            </>: <></>)}
+            </>: <><div style={{padding: "10px 10px 5px", fontSize: "0.8em"}}></div></>)}
           </Paper>
         </Grid>
       </Grid>
