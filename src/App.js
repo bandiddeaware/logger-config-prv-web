@@ -1,5 +1,5 @@
 import React from "react";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import { createTheme , MuiThemeProvider } from "@material-ui/core/styles";
 import './App.css';
 
 import Header from './Header'
@@ -42,7 +42,7 @@ import sconfig from './config'
 //   console.log(e)
 // }
 
-const theme = createMuiTheme({
+const theme = createTheme ({
   breakpoints: {
     values: {
       xs: 0,
@@ -123,10 +123,7 @@ function App() {
     }, {
       path: "/redirect",
       element: <RedirectPage store={store} />
-    }, {
-      path: "/test",
-      element: <Test store={store} />
-    }
+    },
   ]);
 
   return (

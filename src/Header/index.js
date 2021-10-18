@@ -57,6 +57,8 @@ function Header (props) {
   const [userInfo, setuserInfo] = React.useState([]);
   const [Pathname, setPathname] = React.useState(true)
   const [PointInstall, setPointInstall] = React.useState([])
+  const [DisableArea, setDisableArea] = React.useState(false)
+  const [DisableBranch, setDisableBranch] = React.useState(false)
 
   const initData = (users, province) => {
     var query = {}
@@ -151,11 +153,13 @@ function Header (props) {
         store.dispatch(ISSEARCH(false))
       }
     }
+    
     const getPointInstallFn = async (param_wwcode) => {
       const res = await getPointInstall(param_wwcode)
       store.dispatch(POINTINSTALL(res.data))
       setPointInstall(res.data)
     }
+
     const CheckAuth = () => {
       if (!cookies.get('Token') && !cookies.get('UserInfo')){
         history('../', { replace: true })
@@ -174,6 +178,17 @@ function Header (props) {
     CheckAuth()
     setuserInfo(store.getState().UserInfo)
     var user = store.getState().UserInfo
+    console.log("user[0].access_level_id: ", user[0].access_level_id)
+    if (user[0].access_level_id === "1"){
+      setDisableArea(true)
+      setDisableBranch(true)
+    } else if (user[0].access_level_id === "10"){
+      setDisableArea(false)
+      setDisableBranch(true)
+    } else if (user[0].access_level_id === "15"){
+      setDisableArea(false)
+      setDisableBranch(false)
+    }
     getProvinces()
     // unmount here
     // return () => { 
@@ -293,37 +308,46 @@ function Header (props) {
         <div className="container" style={{
           // display: ((Pathname) ? "block": "none")
         }}>
-          <div className="area-title" style={{
-            display: ((Pathname) ? "block": "none")
-          }}>
-            เขต
-          </div>
-          <select className="select-area" value={selectarea} onChange={handleAreaChange} style={{
-            display: ((Pathname) ? "block": "none")
-          }}>
-            <option value="-1">ทุกเขต</option>
-            {
-              area.map((item, index) => {
-                return <option key={index} value={index}>{item.reg_desc}</option>
-              })
-            }
-          </select>
+           {/* && DisableArea && DisableBranch */}
+          {
+            (DisableArea ? <>
+              <div className="area-title" style={{
+                display: ((Pathname) ? "block": "none")
+              }}>
+                เขต
+              </div>
+              <select className="select-area" value={selectarea} onChange={handleAreaChange} style={{
+                display: ((Pathname) ? "block": "none")
+              }}>
+                <option value="-1">ทุกเขต</option>
+                {
+                  area.map((item, index) => {
+                    return <option key={index} value={index}>{item.reg_desc}</option>
+                  })
+                }
+              </select> 
+            </>: null)
+          }
 
-          <div className="branch-title" style={{
-            display: ((Pathname) ? "block": "none")
-          }}>
-            สาขา
-          </div>
-          <select className="select-branch" value={selectbranch} onChange={handleBranchChange} style={{
-            display: ((Pathname) ? "block": "none")
-          }}>
-            <option value="-1">ทุกสาขา</option>
-            {
-              branch.map((item, index) => {
-                return <option key={index} value={index}>{item.ww_desc}</option>
-              })
-            }
-          </select>
+          {
+            (DisableBranch ? <>
+              <div className="branch-title" style={{
+                display: ((Pathname) ? "block": "none")
+              }}>
+                สาขา
+              </div>
+              <select className="select-branch" value={selectbranch} onChange={handleBranchChange} style={{
+                display: ((Pathname) ? "block": "none")
+              }}>
+                <option value="-1">ทุกสาขา</option>
+                {
+                  branch.map((item, index) => {
+                    return <option key={index} value={index}>{item.ww_desc}</option>
+                  })
+                }
+              </select>
+            </>: null)
+          }
         
           <div className="border-divide" style={{
             display: ((Pathname) ? "block": "none")

@@ -210,7 +210,7 @@ export default function TableListDevice(props) {
       { id: 'control',label: 'Control',minWidth: 70,align: "center"},
       { id: 'edit',label: 'จัดการ',minWidth: 140,align: "center"},
     ])
-    // ((userInfo[0] !== undefined) ? ((userInfo[0].is_admin === "0") ? <TableCell  align="center">
+    // ((userInfo[0] !== undefined) ? ((userInfo[0].is_admin === "1") ? <TableCell  align="center">
     // <IconButton aria-label="delete">
     // <EditIcon style={{color: "#ff9800"}}/>
     // </IconButton>
@@ -338,7 +338,7 @@ export default function TableListDevice(props) {
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={((userInfo[0] !== undefined) ? ((column.id === "edit") ? ((userInfo[0].is_admin === "0") ? {display: "table-cell"}: {display: "none"}): {display: "table-cell"}) : {display: "table-cell"})}
+                  style={((userInfo[0] !== undefined) ? ((column.id === "edit") ? ((userInfo[0].is_admin === "1") ? {display: "table-cell"}: {display: "none"}): {display: "table-cell"}) : {display: "table-cell"})}
                 >
                   {column.label}
                 </TableCell>
@@ -401,7 +401,7 @@ export default function TableListDevice(props) {
                 </TableCell>
 
                 {
-                  ((userInfo[0] !== undefined) ? ((userInfo[0].is_admin === "0") ? <TableCell align="center">
+                  ((userInfo[0] !== undefined) ? ((userInfo[0].is_admin === "1") ? <TableCell align="center">
                     <div style={{display: "flex"}}>
 
                       <ReplaceLogger store={store} device={ row.serial_no }/>

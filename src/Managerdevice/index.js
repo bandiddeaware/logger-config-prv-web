@@ -120,7 +120,7 @@ function ManagerDevice (props) {
               เพิ่มอุปกรณ์
             </BtnCustom> */}
             {
-              ((userInfo[0] !== undefined) ? ((userInfo[0].is_admin !== "0") ? <AddDevice store={store} hidden={true} client={mqtt_connection}/>: <AddDevice store={store} hidden={false} client={mqtt_connection}/>): "")
+              ((userInfo[0] !== undefined) ? ((userInfo[0].is_admin !== "1") ? <AddDevice store={store} hidden={true} client={mqtt_connection}/>: <AddDevice store={store} hidden={false} client={mqtt_connection}/>): "")
             }
           </div>
         </div>
@@ -148,7 +148,7 @@ function ManagerDevice (props) {
             // ((store.getState().isSearch) ? <div className="progressbar-search-device"><CircularProgress /></div>: null)
           }
 
-          <TableListDevice deviceInfo={device} store={store}/>
+          <TableListDevice deviceInfo={device} store={store} mqtt_connection={mqtt_connection}/>
           {/* <ListDevice deviceInfo={device} store={store} /> */}
 
         </div>

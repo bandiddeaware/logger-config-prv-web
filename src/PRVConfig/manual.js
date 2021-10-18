@@ -198,9 +198,10 @@ const PRVConfig = (props) => {
       }), 10)
       
       if (res === false){
-        setmodalstate(1)
-        // alert("MQTT Connection Error.")
-        history("/PRVConfig?serial=" + Serial);
+        // setmodalstate(1)
+        alert(`ไม่สามารถส่งข้อมูลอัพเดทข้อมูลที่จุดติดตั้ง ${Serial} ได้`)
+        // history("/PRVConfig?serial=" + Serial);
+        window.location.reload()
       }else {
         const resapi = await updateConfig({
           "serial_no": Serial,

@@ -254,6 +254,7 @@ function Device (props) {
             <InputBox 
               value={Config.ip}
               onChange={handleAddresChange}
+              disabled={true}
             />
           </Grid>
 
@@ -268,6 +269,7 @@ function Device (props) {
               type="number"
               value={Config.port}
               onChange={handlePortChange}
+              disabled={true}
             />
           </Grid>
         </Grid>

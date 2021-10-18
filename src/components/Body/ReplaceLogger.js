@@ -5,10 +5,17 @@ import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import { CONFIG, MODBUS, DEVICE, DMA } from './../../stores/actions'
 
 import { updateConfig, getConfig, getDMAUnique } from './../../apis/PWA_Config'
 import { getPointInstall } from './../../apis/PWA_Api'
+
+import MQTT from 'paho-mqtt'
+import PWAMqtt from './../../module/mqtt_v2'
+import sconfig from './../../config'
+var mqtt_connection = new PWAMqtt(MQTT, sconfig.mqtt_url, 8083, sconfig.mqtt_user, sconfig.mqtt_pass) 
 
 var IntervalTime, TimeoutTime
 
@@ -23,10 +30,21 @@ const useStyles = makeStyles((theme) => ({
   },
   spaceLeft: {
     marginLeft: "10px",
+  },
+  progressPadding: {
+    padding: 20,
+    display: 'flex',
+    justifyContent: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    flexWrap: "nowrap"
   }
 }));
 
 function EditDevice (props) {
+
+  const device = props.device
+
   const classes = useStyles();
   const [store] = React.useState(props.store)
 
@@ -47,7 +65,7 @@ function EditDevice (props) {
   const [selectBranchName, setselectBranchName] = React.useState("")
   const [selectPointInstall, setselectPointInstall] = React.useState("")
 
-  const [Serial, setSerial] = React.useState("hello")
+  const [Serial, setSerial] = React.useState(props.device)
 
   const [MQTTpayloadConfig, setMQTTpayloadConfig] = React.useState({})
   const [checkConfig, setcheckConfig] = React.useState(false)
@@ -59,6 +77,8 @@ function EditDevice (props) {
 
   const [dmainstall, setdmainstall] = React.useState([])
   
+  const [WaitCheckMqtt, setWaitCheckMqtt] = React.useState(true)
+
   React.useEffect(() => {
 
     // clear store 
@@ -166,53 +186,123 @@ function EditDevice (props) {
 
   }
 
+  const checkLoggerForEdit = async () => {
+    var connection = await mqtt_connection.onConnect()
+    if (connection){
+      mqtt_connection.onSubscript(`logger/${Serial}/device/config`)
+      mqtt_connection.onSubscript(`logger/${Serial}/modbus/config`)
+      var data_config = await mqtt_connection.onMessageDevice(
+        `logger/${Serial}/device/config/get`, 
+        "get config", 
+        3
+      )
+      var data_modbus = await mqtt_connection.onMessageModbus(
+        `logger/${Serial}/modbus/config/get`, 
+        "get config", 
+        3
+      )
+      await mqtt_connection.onDisconnect()
+      return {
+        isconnect: true,
+        config: data_config,
+        modbus: data_modbus
+      }
+    }else {
+      return {
+        isconnect: false,
+        config: {},
+        modbus: {}
+      }
+    }
+  }
+
   const handleComfirmSave = async () => {
-    var area = selectArea
-    var branch = Branch[selectBranch].ww
-    try{
-      var res = await updateConfig({
-        serial_no: props.device,
-        zone_id: area,
-        wwcode: branch.toString(),
-        dmacode: PointInstall[selectPointInstall].code,
-        dmaname: PointInstall[selectPointInstall].name,
-        dmakhet: PointInstall[selectPointInstall].khet,
-      })
-      console.log(res)
-      if (res.status === 200){
-        if (res.data.ret === "OK"){
-          // alert("บันทึกสำเร็จ")
-          setOpen(false);
 
-          // show hide btn
-          setcontrolBtnConfirm(true)
-          setcontrolBtnClose(false)
+    setWaitCheckMqtt(false)
+    var ConfigAndModbus = await checkLoggerForEdit()
+    if (ConfigAndModbus.isconnect){
+
+      if (ConfigAndModbus.config === false || ConfigAndModbus.modbus === false){
+        alert("ไม่พบอุปกรณ์")
+      } else {
+        var area = selectArea
+        var branch = Branch[selectBranch].ww
+        try{
+          var res = await updateConfig({
+            zone_id: area,
+            wwcode: branch.toString(),
+            serial_no: device,
+            serial_no_new: Serial,
+            device_config: [ConfigAndModbus.config],
+            modbus_config: [ConfigAndModbus.modbus],
+            dmacode: PointInstall[selectPointInstall].code,
+            dmaname: PointInstall[selectPointInstall].name,
+            dmakhet: PointInstall[selectPointInstall].khet,
+          })
+          if (res.status === 200){
+            if (res.data.result){
+              // alert("บันทึกสำเร็จ")
+              setOpen(false);
+    
+              // show hide btn
+              setcontrolBtnConfirm(true)
+              setcontrolBtnClose(false)
+              
+              setshowSearch(true)
+              setshowNotFound(false)
           
-          setshowSearch(true)
-          setshowNotFound(false)
-      
-          setselectArea("-1")
-          setselectBranch("-1")
-          setselectPointInstall("-1")
-          setSerial("")
-
-          // hook update data
-          var qry = store.getState().Query[0]
-          console.log(qry)
-          var update_store_config = await getConfig(qry)
-          console.log(update_store_config.data)
-          store.dispatch(DEVICE(update_store_config.data))
-          const getdma = async () => {
-            const res = await getDMAUnique()
-            store.dispatch(DMA(res.data))
+              setselectArea("-1")
+              setselectBranch("-1")
+              setselectPointInstall("-1")
+              // setSerial("")
+    
+              // hook update data
+              var qry = store.getState().Query[0]
+              var update_store_config = await getConfig(qry)
+              store.dispatch(DEVICE(update_store_config.data))
+              const getdma = async () => {
+                const res = await getDMAUnique()
+                store.dispatch(DMA(res.data))
+              }
+              getdma()
+            } else {
+              alert("ไม่สามารถแก้ไขข้อมูลได้")
+            }
           }
-          getdma()
+        }catch (e) {
+          handleClose()
+          alert("อุปกรณ์ล๊อกเกอร์นี้นำไปติดตั้งแล้ว")        
         }
       }
-    }catch (e) {
-      handleClose()
-      alert("อุปกรณ์ล๊อกเกอร์นี้นำไปติดตั้งแล้ว")        
+    } else {
+      alert("ไม่สามารถเชื่อมต่ออุปกรณ์ได้")
     }
+
+    // reset state
+    // show hide btn
+    setcontrolBtnConfirm(true)
+    setcontrolBtnClose(false)
+    
+    setshowResult(false)
+
+
+    setshowSearch(true)
+
+    
+    setshowNotFound(false)
+
+    setselectArea("-1")
+    setselectBranch("-1")
+    setselectPointInstall("-1")
+    setBranch([])
+    setPointInstall([])
+    setSerial(device)
+
+    setWaitCheckMqtt(true)
+
+    // clear store config and modbus
+    store.dispatch(CONFIG({}))
+    store.dispatch(MODBUS({}))
 
   }
 
@@ -240,7 +330,9 @@ function EditDevice (props) {
     setselectPointInstall("-1")
     setBranch([])
     setPointInstall([])
-    setSerial("")
+    setSerial(device)
+
+    setWaitCheckMqtt(true)
 
     // clear store config and modbus
     store.dispatch(CONFIG({}))
@@ -284,11 +376,15 @@ function EditDevice (props) {
         aria-describedby="alert-dialog-description"
       >
         <div className="dialog-container">
-          <div className="dialog-title">แก้ไขจุดติดตั้งอุปกรณ์ Smart Logger</div>
+          <div className="dialog-title">แก้ไขจุดติดตั้งอุปกรณ์ Smart Logger [ {device} ]</div>
           
           {
-            ((showSearch) ? 
+            ((WaitCheckMqtt) ? 
             <>
+              <div className="dialog-from" >
+                <div className="dialog-name">Remote Name.</div> 
+                <input className="dialog-form-textbox" value={Serial} type='text' onChange={handleInputSerial} placeholder="กรอก Remote Name."/>
+              </div>
 
               <div className="dialog-from" >
                 <div className="dialog-name">เขต</div> 
@@ -331,17 +427,19 @@ function EditDevice (props) {
                 </select>
               </div>
 
-            </> : null)
+            </> : <div className={ classes.progressPadding }>
+              <CircularProgress />รอซักครู่ 
+            </div>)
           }
 
 
         </div>
         <div className="dialog-btn-group">
           <div className={classes.root}>
-            <Button variant="outlined" color="secondary" onClick={handleClose} disabled={controlBtnClose}>
+            <Button variant="outlined" color="secondary" onClick={handleClose} disabled={controlBtnClose || !WaitCheckMqtt}>
               ยกเลิก
             </Button>
-            <Button variant="outlined" color="primary" onClick={handleComfirmSave} disabled={(controlBtnConfirm)}>
+            <Button variant="outlined" color="primary" onClick={handleComfirmSave} disabled={(controlBtnConfirm || !WaitCheckMqtt)}>
               บันทึก
             </Button>
           </div>

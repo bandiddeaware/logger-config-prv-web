@@ -527,8 +527,10 @@ const PRVConfig = (props) => {
         failure_mode: FailureMode
       }), 10)
       if (resa === false){
-        setmodalstate(1)
-        history("/PRVConfig?serial=" + Serial);
+        // setmodalstate(1)
+        // history("/PRVConfig?serial=" + Serial);
+        alert(`ไม่สามารถส่งข้อมูลอัพเดทข้อมูลที่จุดติดตั้ง ${Serial} ได้`)
+        window.location.reload()
       }else {
         //save to api
         console.log(resa)

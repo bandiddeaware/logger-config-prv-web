@@ -11,6 +11,7 @@
   background-color: #ffffff;
   border-radius: 10px 10px 0px 0px;
   padding-bottom: 20px;
+  min-width: 900px;
 }
 
 .shadow {

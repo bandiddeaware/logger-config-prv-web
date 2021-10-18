@@ -84,7 +84,6 @@ function ListDevice (props) {
   }, [])
 
   const btnConfig = (user, area, branch) => {
-    // if (user.is_admin === '1'){
     if (user.access_level_id === "1"){
       return false
     }else {
@@ -211,7 +210,7 @@ function ListDevice (props) {
 
 
             {
-              ((userInfo[0] !== undefined) ? ((userInfo[0].is_admin === "0") ? <IconButton aria-label="delete" onClick={
+              ((userInfo[0] !== undefined) ? ((userInfo[0].is_admin === "1") ? <IconButton aria-label="delete" onClick={
                 () => {
                   var serial = item.device
                   handleRemove(serial)

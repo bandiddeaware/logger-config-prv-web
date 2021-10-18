@@ -103,7 +103,6 @@ class PWAMqtt {
     })
   }
 
-
   onMessageModbus(topic, msg, Timeout) {
 
     return new Promise((resolve) => {

@@ -26,9 +26,9 @@ function Login(props) {
       store.dispatch(TOKEN([res.data]))
       if (res.status === 200){
         cookies.set(
-  
+          
           'Token', 
-  
+          
           JSON.stringify([res.data]), 
           
           { path: '/', expires: new Date(), maxAge: 60 * 60 * 24 }
@@ -38,7 +38,8 @@ function Login(props) {
         })
         if (res.status === 200){
           if (res.data.msg !== undefined){
-            if (res.data.msg === "Invalid user"){
+            console.log(res.data)
+            if (res.data.msg === "Invalid user" || res.data.msg === "Invalid password"){
               alert("Username หรือ Password ผิดกรุณาตรวจสอบใหม่อีกครั้ง")
             }
           }else {
@@ -106,6 +107,11 @@ function Login(props) {
   const handlePassword = (e) => {
     setpassword(e.target.value)
   }
+  const _handleKeyDown = (e) => {
+    if (e.key === "Enter"){
+      handleLogin()
+    }
+  }
   return (
     <div className="login-container">
       <div className="login-warp">
@@ -116,12 +122,12 @@ function Login(props) {
         <div className="login-title">โปรแกรมจัดการล๊อกเกอร์</div>
         <div className="login-username">
           <label>Username</label>
-          <input type="text"className="input-username" onChange={handleUsername} placeholder="Username"/>
+          <input type="text"className="input-username" onChange={handleUsername} placeholder="Username" onKeyDown={_handleKeyDown} />
         </div>
 
         <div className="login-password">
           <label>Password</label>
-          <input type="password"className="input-password" onChange={handlePassword} placeholder="Password"/>
+          <input type="password"className="input-password" onChange={handlePassword} placeholder="Password" onKeyDown={_handleKeyDown} />
         </div>
 
         <div className="login-confirm">

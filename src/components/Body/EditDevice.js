@@ -4,11 +4,14 @@ import Dialog from '@material-ui/core/Dialog';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
+
 import MQTT from 'paho-mqtt'
 
 import { CONFIG, MODBUS, DEVICE, DMA } from './../../stores/actions'
 
-import { saveConfig, getConfig, getDMAUnique } from './../../apis/PWA_Config'
+import { updateConfig, getConfig, getDMAUnique } from './../../apis/PWA_Config'
 import { getPointInstall } from './../../apis/PWA_Api'
 
 var IntervalTime, TimeoutTime
@@ -28,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function AddDevice (props) {
+
+  const serial_old = props.Serial
+
   const classes = useStyles();
   const [store] = React.useState(props.store)
   const [client] = React.useState(props.client)
@@ -49,7 +55,7 @@ function AddDevice (props) {
   const [selectBranchName, setselectBranchName] = React.useState("")
   const [selectPointInstall, setselectPointInstall] = React.useState("")
 
-  const [Serial, setSerial] = React.useState("")
+  const [Serial, setSerial] = React.useState(props.Serial)
 
   const [MQTTpayloadConfig, setMQTTpayloadConfig] = React.useState({})
   const [checkConfig, setcheckConfig] = React.useState(false)
@@ -63,11 +69,14 @@ function AddDevice (props) {
 
   client.onMessage((message) => {
     var payload = JSON.parse(message.payloadString)
+    console.log("payload")
+    console.log(payload)
     if (payload.ver !== undefined){
       setMQTTpayloadConfig(payload)
       store.dispatch(CONFIG(payload))
     }
     if (payload.mbd !== undefined){
+      console.log("set modbus")
       setMQTTpayloadModbus(payload)
       store.dispatch(MODBUS(payload))
     }
@@ -131,6 +140,9 @@ function AddDevice (props) {
   }
 
   const handleFireToLogger = () => {
+    console.log("===========================================")
+    console.log('mqtt Edit')
+    console.log("===========================================")
     if (client.isConnect){
       client.onSubscript("logger/"+Serial+"/device/config")
       client.onSubscript("logger/"+Serial+"/modbus/config")
@@ -224,14 +236,16 @@ function AddDevice (props) {
 
   }
 
-  const handleComfirmSave = async () => {
+  const handleComfirmEdit = async () => {
+    console.log("handleComfirmEdit")
     var area = selectArea
     var branch = Branch[selectBranch].ww
     try{
-      var res = await saveConfig({
+      var res = await updateConfig({
         zone_id: area,
         wwcode: branch.toString(),
-        serial_no: Serial,
+        serial_no: serial_old,
+        serial_no_new: Serial,
         device_config: [MQTTpayloadConfig],
         modbus_config: [MQTTpayloadModbus],
         dmacode: PointInstall[selectPointInstall].code,
@@ -271,7 +285,7 @@ function AddDevice (props) {
           }
           getdma()
         } else {
-          alert("ไม่สามารถเพิ่มอุปกรณ์ได้")
+          alert("ไม่สามารถแก้ไขข้อมูลได้")
         }
       }
     }catch (e) {
@@ -346,13 +360,9 @@ function AddDevice (props) {
 
   return (
     <div>
-      <div
-        hidden={props.hidden}
-        className="btn-add-device"
-        onClick={handleClickOpen}
-      >
-        เพิ่มอุปกรณ์
-      </div>
+      <IconButton hidden={props.hidden} aria-label="delete" onClick={handleClickOpen}>
+        <EditIcon style={{color: "#ff9800"}}/>
+      </IconButton>
 
       <Dialog
         disableBackdropClick
@@ -364,7 +374,7 @@ function AddDevice (props) {
         aria-describedby="alert-dialog-description"
       >
         <div className="dialog-container">
-          <div className="dialog-title">เพิ่มอุปกรณ์ Smart Logger</div>
+          <div className="dialog-title">แก้ไขอุปกรณ์ Smart Logger [{serial_old}]</div>
           
           {
             ((showSearch) ? 
@@ -441,7 +451,7 @@ function AddDevice (props) {
             <>
               <div className="dialog-show">
                 <div style={{textAlign: "center"}}>
-                  ยืนยันการเพิ่มอุปกรณ์ <span className="dialog-show-serial">
+                  ยืนยันการแก้ไขอุปกรณ์ <span className="dialog-show-serial">
                     {
                       ((MQTTpayloadConfig.dev !== undefined) ? MQTTpayloadConfig.dev: null)
                     }
@@ -491,7 +501,7 @@ function AddDevice (props) {
                 <Button variant="outlined" color="secondary" onClick={handleClose} disabled={controlBtnClose}>
                   ยกเลิก
                 </Button>
-                <Button variant="outlined" color="primary" onClick={handleComfirmSave} disabled={(controlBtnConfirm || (Serial === ""))}>
+                <Button variant="outlined" color="primary" onClick={handleComfirmEdit} disabled={(controlBtnConfirm || (Serial === ""))}>
                   บันทึก
                 </Button>
               </div>
