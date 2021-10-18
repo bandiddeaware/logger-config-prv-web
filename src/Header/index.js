@@ -87,6 +87,19 @@ function Header (props) {
         count: 0,
         userAccress: users.access_level_desc
       }
+
+      // set init branch on user level 10
+      province.forEach((item_reg) => {
+        if (item_reg.reg === users.zone_id){
+          setbranch(item_reg.ww_all)
+          item_reg.ww_all.forEach((item_ww, index) => {
+            if (item_ww.ww === Number(users.wwcode)){
+              setselectbranch(index)
+            }
+          })
+        }
+      })
+
     }else if (users.access_level_id === "15"){
       if (users.zone_id === "99"){
         setselectarea(0)
@@ -101,6 +114,7 @@ function Header (props) {
         count: 0,
         userAccress: users.access_level_desc
       }
+      console.log(users.zone_id)
       province.forEach((item_reg) => {
         if (item_reg.reg === users.zone_id){
           setbranch(item_reg.ww_all)
